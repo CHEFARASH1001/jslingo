@@ -1,0 +1,6 @@
+services:
+  jslingo:
+    build: .
+    ports:
+      - "4200:4200"
+    restart: unless-stopped

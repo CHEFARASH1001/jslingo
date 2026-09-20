@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JSLingo یک آزمایشگاه تعاملی برای یادگیری JavaScript، شبکه و امنیت وب است.">
+    <meta name="theme-color" content="#0b1220">
+    <title>JSLingo — آزمایشگاه یادگیری JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar -->
+        <nav class="sidebar" aria-label="ناوبری اصلی">
+            <div class="logo">
+                <span class="logo-icon" aria-hidden="true">⌘</span>
+                <div class="brand-copy">
+                    <h1>JSLingo</h1>
+                    <span>JavaScript learning lab</span>
+                </div>
+            </div>
+            <div class="user-stats">
+                <div class="stat">
+                    <span class="stat-icon">🔥</span>
+                    <span class="stat-copy"><strong id="streak">0</strong><small>روز متوالی</small></span>
+                </div>
+                <div class="stat">
+                    <span class="stat-icon">⭐</span>
+                    <span class="stat-copy"><strong id="xp">0</strong><small>XP</small></span>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#lessons" data-page="lessons" onclick="showPage('lessons'); return false;" class="active" aria-current="page"><span aria-hidden="true">📚</span> درس‌ها</a></li>
+                <li><a href="#network" data-page="network" onclick="showPage('network'); return false;"><span aria-hidden="true">🌐</span> شبکه</a></li>
+                <li><a href="#project" data-page="project" onclick="showPage('project'); return false;"><span aria-hidden="true">🛠️</span> پروژه عملی</a></li>
+                <li><a href="#bugbounty" data-page="bugbounty" onclick="showPage('bugbounty'); return false;"><span aria-hidden="true">🐛</span> باگ‌بانتی</a></li>
+                <li><a href="#challenges" data-page="challenges" onclick="showPage('challenges'); return false;"><span aria-hidden="true">🏆</span> چلنج</a></li>
+                <li><a href="#practice" data-page="practice" onclick="showPage('practice'); return false;"><span aria-hidden="true">💪</span> تمرین</a></li>
+                <li><a href="#profile" data-page="profile" onclick="showPage('profile'); return false;"><span aria-hidden="true">👤</span> پروفایل</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>یادگیری محلی و خصوصی</span>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="content-topbar">
+                <div>
+                    <span class="eyebrow">JSLINGO / LEARNING LAB</span>
+                    <span class="active-page-label" id="active-page-label">مسیر یادگیری</span>
+                </div>
+                <button class="topbar-profile" type="button" onclick="showPage('profile')" aria-label="باز کردن پروفایل">
+                    <span class="avatar" aria-hidden="true">JS</span>
+                    <span>پروفایل من</span>
+                    <span aria-hidden="true">←</span>
+                </button>
+            </header>
+
+            <!-- Lessons Page -->
+            <div id="lessons-page" class="page active">
+                <section class="hero-card">
+                    <div class="hero-copy">
+                        <span class="eyebrow">BUILD YOUR NEXT SKILL</span>
+                        <h2>از اولین خط کد تا پروژه‌ی واقعی</h2>
+                        <p>JavaScript را با درس‌های کوتاه، تمرین‌های تعاملی و یک مسیر مرحله‌به‌مرحله یاد بگیر.</p>
+                        <div class="hero-actions">
+                            <button class="btn-primary" type="button" onclick="startNextLesson()">ادامه‌ی مسیر <span aria-hidden="true">←</span></button>
+                            <button class="btn-ghost" type="button" onclick="showPage('practice')">محیط تمرین</button>
+                        </div>
+                    </div>
+                    <div class="hero-visual" aria-hidden="true">
+                        <div class="hero-orbit hero-orbit-one"></div>
+                        <div class="hero-orbit hero-orbit-two"></div>
+                        <div class="hero-mark">JS<span>.</span></div>
+                        <code>&lt;/&gt;</code>
+                    </div>
+                </section>
+
+                <section class="overview-grid" id="overview-grid" aria-label="خلاصه‌ی پیشرفت"></section>
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">YOUR PATH</span>
+                        <h2>مسیر یادگیری</h2>
+                    </div>
+                    <span class="section-meta" id="lesson-progress-label">۰٪ تکمیل شده</span>
+                </div>
+                <div class="path" id="lesson-path"></div>
+            </div>
+
+            <!-- Lesson View -->
+            <div id="lesson-view" class="page">
+                <div class="lesson-header">
+                    <button class="btn-back" type="button" onclick="goBack()">→ بازگشت</button>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="lesson-progress"></div>
+                    </div>
+                    <span id="step-counter">1/5</span>
+                </div>
+                <div class="lesson-content" id="lesson-content"></div>
+                <div class="lesson-actions">
+                    <button class="btn-primary" id="check-btn" onclick="checkAnswer()">بررسی</button>
+                    <button class="btn-primary hidden" id="next-btn" onclick="nextStep()">ادامه</button>
+                </div>
+                <div class="feedback hidden" id="feedback"></div>
+            </div>
+
+            <!-- Network Page -->
+            <div id="network-page" class="page">
+                <span class="eyebrow">NETWORK FUNDAMENTALS</span>
+                <h2>🌐 آموزش شبکه</h2>
+                <p class="page-lead">از مفاهیم پایه تا پیشرفته؛ مناسب برای توسعه‌دهنده‌ها و مسیر امنیت وب.</p>
+                <div class="path" id="network-path"></div>
+            </div>
+
+            <!-- Project Page -->
+            <div id="project-page" class="page">
+                <span class="eyebrow">BUILD IN PUBLIC</span>
+                <h2>🛠️ پروژه عملی: ساخت REST API</h2>
+                <p class="page-lead">قدم‌به‌قدم یک API کامل با Node.js، Express، MongoDB و Docker بساز.</p>
+                <div class="project-steps" id="project-steps"></div>
+            </div>
+
+            <!-- Bug Bounty Page -->
+            <div id="bugbounty-page" class="page">
+                <span class="eyebrow">SECURITY TRACK</span>
+                <h2>🐛 مسیر باگ‌بانتی</h2>
+                <div class="tab-buttons" style="display:flex;gap:12px;margin-bottom:20px;">
+                    <button class="btn-tab active" id="bb-tab-lessons" onclick="showBBTab('lessons')">📚 آموزش</button>
+                    <button class="btn-tab" id="bb-tab-challenges" onclick="showBBTab('challenges')">🏆 چلنج</button>
+                </div>
+                <div id="bb-lessons-tab">
+                    <div class="path" id="bugbounty-path"></div>
+                </div>
+                <div id="bb-challenges-tab" style="display:none;">
+                    <p class="page-lead">چلنج‌های عملی باگ‌بانتی، در محیط آموزشی و کنترل‌شده.</p>
+                    <div class="challenges-list" id="bb-challenges-list"></div>
+                </div>
+            </div>
+
+            <!-- Challenges Page -->
+            <div id="challenges-page" class="page">
+                <span class="eyebrow">CODING CHALLENGES</span>
+                <h2>🏆 چلنج‌ها</h2>
+                <p class="page-lead">تمرین‌های الگوریتمی برای ساختن عادت حل مسئله.</p>
+                <div class="challenges-list" id="challenges-list"></div>
+            </div>
+
+            <!-- Practice Page -->
+            <div id="practice-page" class="page">
+                <span class="eyebrow">SAFE PLAYGROUND</span>
+                <h2>تمرین آزاد</h2>
+                <p class="page-lead">کد JavaScript را در یک محیط جداگانه اجرا کن؛ داده‌ای به سرور ارسال نمی‌شود.</p>
+                <div class="code-playground">
+                    <textarea id="playground-code" spellcheck="false" placeholder="کد JavaScript خودت را اینجا بنویس..."></textarea>
+                    <button class="btn-primary" type="button" onclick="runPlayground()">▶ اجرا</button>
+                    <div class="output" id="playground-output" role="status" aria-live="polite"></div>
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="profile-page" class="page">
+                <span class="eyebrow">YOUR PROGRESS</span>
+                <h2>پروفایل من</h2>
+                <p class="page-lead">پیشرفتت را ببین و قدم بعدی را انتخاب کن.</p>
+                <div class="profile-stats" id="profile-stats"></div>
+            </div>
+        </main>
+    </div>
+    <script src="lessons-data.js"></script>
+    <script src="challenges-data.js"></script>
+    <script src="bugbounty-challenges.js"></script>
+    <script src="project-data.js"></script>
+    <script src="network-data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
